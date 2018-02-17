@@ -9,6 +9,7 @@ from sklearn import mixture
 from sklearn.preprocessing import normalize
 import cPickle as pickle
 import re
+import random
 
 def loadWord2VecModel(filePath):
     """
@@ -85,10 +86,12 @@ def loadCuisines(cuisineNames,cuisinePath):
 
 def getTasteInfoCuisine(cuisine,model,gmmModel,finalClusterLabel):
     """
-    Generate the taste info vector for a cuisine cuisine
+    Generate the taste info vector for a cuisine
     """
     ingCount = len(cuisine)
+
     tasteInfo = np.zeros(6)
+
     for i in range(ingCount):
         currentIng = cuisine[i].encode('ascii','ignore')
         v = getVector(model,currentIng)

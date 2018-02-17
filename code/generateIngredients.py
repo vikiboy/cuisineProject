@@ -10,6 +10,7 @@ from sklearn.preprocessing import normalize
 import cPickle as pickle
 from getTasteInfo import loadWord2VecModel,loadClusters,getVector,getTasteInfoCuisine,\
                             getTasteInfoIngredient,loadCuisines,loadCuisine,getIngredientsForRecipe
+import random
 
 def getIngredientPoolTasteInfo(ingredientPool,model,gmmModel,finalClusterLabel):
     """
@@ -103,11 +104,14 @@ def main(targetCuisine,priorCuisine,recipeList,recipeFlag=False):
     targetCuisine = loadCuisine(targetCuisine,cuisinePath)
     if recipeFlag==False:
         priorCuisine = loadCuisines(priorCuisine,cuisinePath)
+        randomIngSample = random.sample(range(0,len(priorCuisine)),100)
+        priorCuisine = [priorCuisine[idx] for idx in randomIngSample]
     else:
         priorCuisine = getIngredientsForRecipe(priorCuisine,recipeList,recipeFlag)
 
     # Generate ingredient pool
     # print priorCuisine
+
 
     ingredientPool = generateIngredientSet(targetCuisine,priorCuisine,model,gmmModel,finalClusterLabel)
 
@@ -116,4 +120,4 @@ def main(targetCuisine,priorCuisine,recipeList,recipeFlag=False):
     print ingredientPool
 
 if __name__ == "__main__":
-    main('greek',['mexican','chinese'],["Taco Lasagna","Beef Fajitas","Shrimp Wontons"],True)
+    main('greek',['american'],["Hickory-Smoked Bourbon Turkey","Marinated Beef Tenderloin"],False)
