@@ -107,7 +107,7 @@ def main(targetCuisine,priorCuisine,recipeList,recipeFlag=False):
         priorCuisine = getIngredientsForRecipe(priorCuisine,recipeList,recipeFlag)
 
     # Generate ingredient pool
-    print priorCuisine
+    # print priorCuisine
 
     ingredientPool = generateIngredientSet(targetCuisine,priorCuisine,model,gmmModel,finalClusterLabel)
 
