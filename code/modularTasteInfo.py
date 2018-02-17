@@ -29,6 +29,8 @@ directory = dirPath + datasetDir
 fileName = "ingredientslist.json"
 filePath = dirPath + fileName
 
+newFilePath = "ingredientList.json"
+
 def USDAParser(directory,tasteLabels,labels):
     """
     Parser for USDA
@@ -71,7 +73,7 @@ def USDAParser(directory,tasteLabels,labels):
                 currentLabel = []
                 for i in range(len(foodLabel)):
                     currentLabel.append(labels[foodLabel[i]])
-                    
+
                 d = {'idx':idx,'foodName':foodName,'foodLabel':currentLabel}
             else:
                 d = {'idx':idx,'foodName':foodName,'foodLabel':[]}
@@ -273,7 +275,8 @@ def generateTasteInfo(foodInfo,labelVec,gmmPredScores,finalClusterLabel):
 def main():
     foodInfo1 = USDAParser(directory,tasteLabels,labels)
     foodInfo2 = ingredientParser(filePath,tasteLabels,labels)
-    foodInfo = foodInfo1 + foodInfo2
+    foodInfo3 = ingredientParser(newFilePath,tasteLabels,labels)
+    foodInfo = foodInfo1 + foodInfo2 + foodInfo3
     sentences,sentenceInfo = buildSentences(foodInfo)
     model,words = trainWord2VecModel(sentences)
     labelVec,X = generateVectorsVocab(model=model,sentenceInfo=sentenceInfo,words=words)

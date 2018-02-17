@@ -8,6 +8,7 @@ import numpy as np
 from sklearn import mixture
 from sklearn.preprocessing import normalize
 import cPickle as pickle
+import re
 
 def loadWord2VecModel(filePath):
     """
@@ -97,6 +98,41 @@ def getTasteInfoCuisine(cuisine,model,gmmModel,finalClusterLabel):
 
     cuisineInfo = tasteInfo/float(ingCount)
     return cuisineInfo
+
+def getIngredientsForRecipe(cuisineList,recipeList,recipeFlag=False):
+    """
+    Given recipe list generate the ingredient list
+    Input : Prior Cuisine List, Prior Recipe list
+    Output : Ingredient List
+    """
+
+    if recipeFlag==True:
+        recipeFile = open("recipe.json")
+        recipeStr = recipeFile.read()
+
+        recipeDataJSON = json.loads(recipeStr) # recipes with ingredients
+
+        cuisineCount = len(cuisineList)
+        recipeCount = len(recipeList)
+
+        ingredientList = []
+        finalIngList = []
+        # search for all cuisines
+        for i in range(cuisineCount):
+        # search for all recipes provided
+            for j in range(recipeCount):
+            # search for all recipes in current cuisine
+                for recipe in recipeDataJSON[cuisineList[i]]:
+                # search for current user-provided recipe in all recipes for current cuisines
+                    if re.search(recipeList[j],recipe,re.IGNORECASE):
+                    # get ingredient list for found recipe
+                        currentIngList = recipeDataJSON[cuisineList[i]][recipe]
+                        ingredientList += currentIngList
+
+        for i in range(len(ingredientList)):
+            finalIngList.append(ingredientList[i].encode('ascii','ignore'))
+
+        return finalIngList
 
 def main():
     """

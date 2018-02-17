@@ -8,7 +8,8 @@ import numpy as np
 from sklearn import mixture
 from sklearn.preprocessing import normalize
 import cPickle as pickle
-from getTasteInfo import loadWord2VecModel,loadClusters,getVector,getTasteInfoCuisine,getTasteInfoIngredient,loadCuisines,loadCuisine
+from getTasteInfo import loadWord2VecModel,loadClusters,getVector,getTasteInfoCuisine,\
+                            getTasteInfoIngredient,loadCuisines,loadCuisine,getIngredientsForRecipe
 
 def getIngredientPoolTasteInfo(ingredientPool,model,gmmModel,finalClusterLabel):
     """
@@ -90,7 +91,7 @@ def main(targetCuisine,priorCuisine,recipeList,recipeFlag=False):
     filePath = "./model.bin"
     gmmfilepath  = "./gmmModel.p"
     finalClusterLabelfilepath = "./finalClusterLabel.p"
-    cuisinePath = "./fav_ing_dict_2.json"
+    cuisinePath = "./fav_ing_dict_3.json"
 
     # Loading the word2vec model, gmm model, and the final cluster labels
 
@@ -103,7 +104,7 @@ def main(targetCuisine,priorCuisine,recipeList,recipeFlag=False):
     if recipeFlag==False:
         priorCuisine = loadCuisines(priorCuisine,cuisinePath)
     else:
-        priorCuisine = recipeList
+        priorCuisine = getIngredientsForRecipe(priorCuisine,recipeList,recipeFlag)
 
     # Generate ingredient pool
     print priorCuisine
@@ -115,4 +116,4 @@ def main(targetCuisine,priorCuisine,recipeList,recipeFlag=False):
     print ingredientPool
 
 if __name__ == "__main__":
-    main('greek',['mexican','chinese'],["cardamom pods","homemade chicken broth","picholine olives","raw sugar","Mexican lager beer"],True)
+    main('greek',['mexican','chinese'],["Taco Lasagna","Beef Fajitas","Shrimp Wontons"],True)
