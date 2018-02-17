@@ -71,6 +71,7 @@ def USDAParser(directory,tasteLabels,labels):
                 currentLabel = []
                 for i in range(len(foodLabel)):
                     currentLabel.append(labels[foodLabel[i]])
+                    
                 d = {'idx':idx,'foodName':foodName,'foodLabel':currentLabel}
             else:
                 d = {'idx':idx,'foodName':foodName,'foodLabel':[]}

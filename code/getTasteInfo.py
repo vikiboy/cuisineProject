@@ -66,6 +66,22 @@ def loadCuisine(cuisineName,cuisinePath):
 
     return cuisineDict[cuisineName]
 
+def loadCuisines(cuisineNames,cuisinePath):
+    """
+    Load ingredients from the given cuisine
+    """
+    with open(cuisinePath,"r") as f:
+        cuisineDict = json.load(f)
+
+    noCuisines = len(cuisineNames)
+
+    loadedCuisine = []
+
+    for i in range(noCuisines):
+        loadedCuisine+=cuisineDict[cuisineNames[i]]
+
+    return loadedCuisine
+
 def getTasteInfoCuisine(cuisine,model,gmmModel,finalClusterLabel):
     """
     Generate the taste info vector for a cuisine cuisine
